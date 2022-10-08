@@ -3,7 +3,7 @@ const fs = require("fs");
 module.exports = (req, res, next) => {
   // check file exist
   if (typeof req.file === "undefined" || typeof req.body === "undefined")
-    return res.status(400).json({ message: "Issue with uploading this image." });
+    return res.status(400).json({ msg: "Issue with uploading this image." });
 
   // app use upload
   let image = req.file.path;
