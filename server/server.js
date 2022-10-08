@@ -1,7 +1,12 @@
+const { application } = require("express");
 const express = require("express");
 const app = express();
+const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose');
 require('dotenv').config();
+const userRoutes = require('./routes/userRoutes')
+const uploadRoutes = require('./routes/uploadRoutes')
+const cors = require('cors')
 
 //Parsing middleware
 app.use(express.urlencoded({
@@ -11,17 +16,24 @@ app.use(express.urlencoded({
 //Middleware request all JSON
 app.use(express.json());
 
-//middleware to handle CORS Policy
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin","*");
-    res.header("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept, Authorization");
+//Middleware use cookies
+app.use(cookieParser());
 
-    if(req.method == "OPTIONS"){
-        res.set('Access-Control-Max-Age');
-        res.set('Access-Control-Allow-Headers', 'Content-Type');
-        res.status(204).send('');
-    }
-});
+app.use('./uploads/', express.static('uploads'));
+
+app.use(userRoutes);
+app.use(uploadRoutes);
+
+app.use(cors());
+
+app.get("/", (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*")
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Access-Control-Max-Age", "1800");
+    res.setHeader("Access-Control-Allow-Headers", "content-type");
+    res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
+     });
+    
 
 //Middleware modules for Error Handling
 app.use((req, res, next) => {
