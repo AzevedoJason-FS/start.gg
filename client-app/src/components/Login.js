@@ -1,18 +1,18 @@
 import { useContext, useState } from "react";
 import { MdVisibility } from "react-icons/md";
-import { FcGoogle } from "react-icons/fc";
 import { isEmpty, isEmail } from '../components/helper/validate'
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css"
 import { AuthContext } from "../context/AuthContext";
 
-const initialState = {
-    name: '',
-    passowrd: ''
-}
-
 const Login = () => {
+
+    const initialState = {
+        name: '',
+        passowrd: ''
+    }
+
     const [visible, setVisible] = useState(false);
     const [data, setData] = useState(initialState)
     const { email, password } = data
@@ -60,7 +60,6 @@ const Login = () => {
             </div>
             <div style={styles.login_btn}>
                 <button style={styles.btn} type='submit'>login</button>
-                <button style={styles.btn}><FcGoogle style={styles.btnIcon}/></button>
             </div>
         </form>
         </>

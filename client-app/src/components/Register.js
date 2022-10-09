@@ -6,14 +6,15 @@ import { ToastContainer, toast } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css"
 import { FcGoogle } from "react-icons/fc";
 
-const initialState = {
-    name: '',
-    email: '',
-    password: '',
-    cf_password: '',
-}
-
 const Register = () => {
+
+    const initialState = {
+        name: '',
+        email: '',
+        password: '',
+        cf_password: '',
+    }
+
     const [visible, setVisible] = useState(false);
     const [data, setData] = useState(initialState)
     const { name, email, password, cf_password } = data

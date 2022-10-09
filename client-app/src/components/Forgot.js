@@ -1,12 +1,63 @@
+import { isEmpty, isEmail } from '../components/helper/validate'
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css"
+import { useState } from 'react';
+
 const Forgot = () => {
+    const [email, setEmail] = useState('')
+
+    const handleChange = (e) => {
+        setEmail(e.target.value)
+    }
+
+    const handleReset = () => {
+        Array.from(document.querySelectorAll('input')).forEach(
+            (input) => (input.value = '')
+        )
+        setEmail({email: ''})
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if(isEmpty(email)){
+            return toast('Please enter an email',{
+                className: 'toast-failed',
+                bodyClassName: 'toast-failed'
+            })
+        }
+        if(!isEmail(email)){
+            return toast('Please enter a valid email address',{
+                className: 'toast-failed',
+                bodyClassName: 'toast-failed'
+            })
+        }
+        try{
+            await axios.post('/api/auth/forgot_password',{email})
+            handleReset();
+            return toast('Success, Please check your email', {
+                className: 'toast-success',
+                bodyClassName: 'toast-success'
+            })
+        } catch(err){
+            return toast(err.response.data.message,{
+                className: 'toast-failed',
+                bodyClassName: 'toast-failed'
+            })
+        }
+    }
     return(
-        <form style={styles.form}>
+        <>
+        <ToastContainer />
+        <form style={styles.form} onSubmit={handleSubmit}>
             <h2 style={styles.formTitle}>password reset</h2>
-            <input type='text' style={styles.inputField} placeholder="email" />
+            <input type='text' style={styles.inputField} placeholder="email"name='email' onChange={handleChange}/>
             <div style={styles.login_btn}>
-                <button style={styles.btn}>send</button>
+                <button style={styles.btn} type='submit'>send</button>
             </div>
         </form>
+        </>
     )
 }
 
