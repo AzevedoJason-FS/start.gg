@@ -192,62 +192,6 @@ const userController = {
         } catch(err){
             res.status(500).json({ message: err.message })
         }
-    },
-    google: async (req, res) => {
-        try{
-            //get google token ID
-            const tokenID = req.body
-
-            //verify ID
-            const client = new OAuth2(process.env.G_CLIENT_ID)
-            const verify = await client.verifyIdToken({
-                idToken: tokenID,
-                audience: process.env.G_CLIENT_ID
-            })
-
-            //get data
-            const { email_verified, email, name, picture} = verify.payload
-
-            //failed verification
-            if(!email_verified) return res.status(400).json({message: 'Email verification failed'})
-
-            //pass verification
-            const user = await User.findOne({email})
-
-            // if user exist, signin
-            if(user){
-                //create refresh token
-                const rf_token = createToken.refresh({id: user._id})
-                //store cookie
-                res.cookie("_apprftoken", rf_token,{
-                    httpOnly: true,
-                    path: '/api/auth/access',
-                    maxAge: 24 * 60 * 60 * 1000 //24hr
-                })
-                //success
-                res.status(200).json({message: 'Signin with Google Success'})
-            } else {
-                const password = email + process.env.G_CLIENT_ID
-                const salt = await bcrypt.genSalt();
-                const hashPassword = await bcrypt.hash(password, salt)
-                const newUser = new User({
-                    name, email, password: hashPassword, avatar: picture
-                })
-                await newUser.save()
-                //sign in new user and create refresh token
-                 const rf_token = createToken.refresh({id: user._id})
-                 //store cookie
-                 res.cookie("_apprftoken", rf_token,{
-                     httpOnly: true,
-                     path: '/api/auth/access',
-                     maxAge: 24 * 60 * 60 * 1000 //24hr
-                 })
-                 //success
-                 res.status(200).json({message: 'Signin with Google Success'})
-            }
-        } catch(err){
-            res.status(500).json({ message: err.message })
-        }
     }
 }
 

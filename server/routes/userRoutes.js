@@ -12,6 +12,5 @@ route.post('/api/auth/reset_password', auth, userController.reset)
 route.get('/api/auth/user', auth, userController.info);
 route.patch('/api/auth/user_update', auth, userController.update);
 route.get('/api/auth/signout', userController.signout);
-route.post('/api/auth/google_signin', userController.google);
 
 module.exports = route;
