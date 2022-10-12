@@ -20,6 +20,10 @@ const userSchema = mongoose.Schema({
     avatar: {
         type: String,
         default: 'https://res.cloudinary.com/dbqqobh8l/image/upload/v1664913087/avatar/avatar-seafoam_khwmlt.jpg',
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
     }
 },{timestamp: true});
 

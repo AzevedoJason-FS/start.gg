@@ -55,10 +55,6 @@ const userController = {
             const user = jwt.verify(activation_token, process.env.ACTIVATION_TOKEN)
             const {name, email, password} = user
 
-            //check user
-            const check = await User.findOne({email})
-            if(check) return res.status(400).json({message: "This email is already registered"})
-
             // add user to db
             const newUser = new User({name, email, password})
             await newUser.save()
