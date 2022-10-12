@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/AzevedoJason-FS/start.gg/issues"
   },
-  "homepage": "https://github.com/AzevedoJason-FS/start.gg#readme"
+  "homepage": "https://github.com/AzevedoJason-FS/start.gg#readme",
+  "dependencies": {
+    "concurrently": "^7.4.0"
+  }
 }
