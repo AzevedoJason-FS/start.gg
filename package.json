@@ -1,0 +1,24 @@
+{
+  "name": "start.gg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd client-app && npm run build",
+    "install-client": "cd client-app && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build",
+    "server": "cd server && nodemon server.js",
+    "develop": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix client\"",
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AzevedoJason-FS/start.gg.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AzevedoJason-FS/start.gg/issues"
+  },
+  "homepage": "https://github.com/AzevedoJason-FS/start.gg#readme"
+}

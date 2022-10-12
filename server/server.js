@@ -7,6 +7,13 @@ require('dotenv').config();
 const userRoutes = require('./routes/userRoutes')
 const uploadRoutes = require('./routes/uploadRoutes')
 const cors = require('cors')
+const path = require('path')
+
+app.use(express.static(path.resolve(__dirname, '../client-app/build')));
+
+app.get('*', function(request, response){
+    response.sendFile(path.resolve(__dirname,'../client-app/build', 'index.html'))
+})
 
 //Parsing middleware
 app.use(express.urlencoded({
